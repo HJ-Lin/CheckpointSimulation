@@ -34,7 +34,14 @@ public class CameraController : MonoBehaviour
         {
             Vector3 currentMousePos = mouse.position.ReadValue();
             Vector3 diff = (currentMousePos - dragOrigin) * panSpeed * Time.deltaTime;
-            Vector3 newPos = transform.position - new Vector3(diff.x, 0, diff.y);
+
+            // Convert screen space movement to isometric world space
+            // For isometric: North is top-left, East is top-right
+            // This is a 45-degree rotation of the input
+            float isometricX = (diff.x + diff.y) * 0.5f;
+            float isometricZ = (diff.y - diff.x) * 0.5f;
+
+            Vector3 newPos = transform.position - new Vector3(isometricX, 0, isometricZ);
             newPos.x = Mathf.Clamp(newPos.x, panBoundsX.x, panBoundsX.y);
             newPos.z = Mathf.Clamp(newPos.z, panBoundsZ.x, panBoundsZ.y);
             transform.position = newPos;
