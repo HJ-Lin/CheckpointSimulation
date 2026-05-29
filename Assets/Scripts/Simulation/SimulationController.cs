@@ -221,7 +221,8 @@ public class SimulationController : MonoBehaviour
         traveler.State = TravelerState.InSecurityQueue;
         traveler.SecurityQueueJoinTime = simulationTime;
         securityQueues[traveler.LaneIndex].Add(traveler);
-        traveler.SetSecurityQueuePosition(securityQueues[traveler.LaneIndex].Count - 1);
+        int queuePos = securityQueues[traveler.LaneIndex].Count - 1;
+        traveler.SetSecurityQueuePosition(queuePos);
     }
 
     public void TryAssignTravelerToSecurityCounter(SecurityCounter counter)
@@ -279,12 +280,8 @@ public class SimulationController : MonoBehaviour
             traveler.State = TravelerState.InImmigrationQueue;
             traveler.ImmigrationQueueJoinTime = simulationTime;
             immigrationQueues[bestLane].Add(traveler);
-            traveler.SetImmigrationQueuePosition(immigrationQueues[bestLane].Count - 1);
-
-            // Move to queue entry point
-            Vector3 target = immigrationLanes[bestLane].GetQueuePosition(0);
-            target.y = traveler.transform.position.y;
-            traveler.SetTarget(target);
+            int queuePos = immigrationQueues[bestLane].Count - 1;
+            traveler.SetImmigrationQueuePosition(queuePos);
         }
         else
         {

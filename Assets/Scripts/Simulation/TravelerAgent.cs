@@ -143,9 +143,9 @@ public class TravelerAgent : MonoBehaviour
         queuePosition = pos;
         // Update target to queue waypoint
         var lane = SimulationController.Instance.GetSecurityLane(laneIndex);
-        if (lane != null && pos < lane.CachedPositions.Count)
+        if (lane != null)
         {
-            targetPosition = lane.CachedPositions[pos];
+            targetPosition = lane.GetQueuePosition(pos);
         }
     }
 
@@ -154,9 +154,9 @@ public class TravelerAgent : MonoBehaviour
         queuePosition = pos;
         // Update target to queue waypoint
         var lane = SimulationController.Instance.GetImmigrationLane(laneIndex);
-        if (lane != null && pos < lane.CachedPositions.Count)
+        if (lane != null)
         {
-            targetPosition = lane.CachedPositions[pos];
+            targetPosition = lane.GetQueuePosition(pos);
         }
     }
 }
