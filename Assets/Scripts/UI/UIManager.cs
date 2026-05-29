@@ -164,7 +164,7 @@ public class UIManager : MonoBehaviour
 
     private void CycleSpeed()
     {
-        float[] speeds = { 1f, 2f, 5f, 10f, 20f, 50f, 100f };
+        float[] speeds = { 1f, 2f, 5f, 10f, 20f, 50f, 100f, 200f, 500f };
         int currentIdx = Array.IndexOf(speeds, controller.simulationSpeed);
         currentIdx = (currentIdx + 1) % speeds.Length;
         controller.simulationSpeed = speeds[currentIdx];
