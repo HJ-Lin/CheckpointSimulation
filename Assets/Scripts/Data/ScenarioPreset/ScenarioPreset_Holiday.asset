@@ -15,12 +15,12 @@ MonoBehaviour:
   id: holiday
   displayName: Holiday Rush
   arrivalRate: 8
-  securityLanes: 3
+  securityLanes: 6
   securityProcessingTime: 60
   securityMinTime: 30
   securityMaxTime: 100
   securityEnhancedProb: 0.1
-  immigrationCounters: 4
+  immigrationCounters: 8
   immigrationProcessingTime: 90
   immigrationMinTime: 45
   immigrationMaxTime: 150
