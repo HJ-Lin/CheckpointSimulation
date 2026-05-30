@@ -54,6 +54,7 @@ public class TravelerAgent : MonoBehaviour, IPoolable
     private Vector3 targetPosition;
     private float typeMultiplier;
     public float TypeMultiplier => typeMultiplier;
+    private Color originalMaterialColor;
 
     public void Initialize(int travelerId, string travelerType, bool citizen, float arrivalTime)
     {
@@ -77,6 +78,30 @@ public class TravelerAgent : MonoBehaviour, IPoolable
 
         typeMultiplier = GetTypeMultiplier(type);
         targetPosition = transform.position;
+
+        ApplyTypeColor(type);
+    }
+
+    private void ApplyTypeColor(string travelerType)
+    {
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null && renderer.material != null)
+        {
+            if (originalMaterialColor == Color.clear)
+            {
+                originalMaterialColor = renderer.material.color;
+            }
+
+            Color newColor = Color.white;
+            switch (travelerType)
+            {
+                case "business": newColor = Color.green; break;
+                case "family": newColor = Color.red; break;
+                default: newColor = Color.yellow; break;
+            }
+
+            renderer.material.color = newColor;
+        }
     }
 
     private float GetTypeMultiplier(string travelerType)
@@ -196,6 +221,18 @@ public class TravelerAgent : MonoBehaviour, IPoolable
         targetPosition = Vector3.zero;
         typeMultiplier = 1.0f;
         state = TravelerState.Arriving;
+
+        RevertMaterialColor();
+    }
+
+    private void RevertMaterialColor()
+    {
+        Renderer renderer = GetComponent<Renderer>();
+        if (renderer != null && renderer.material != null && originalMaterialColor != Color.clear)
+        {
+            renderer.material.color = originalMaterialColor;
+            originalMaterialColor = Color.clear;
+        }
     }
 
     /// <summary>

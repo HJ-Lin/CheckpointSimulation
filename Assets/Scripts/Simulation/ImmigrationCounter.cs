@@ -75,7 +75,9 @@ public class ImmigrationCounter : MonoBehaviour
         traveler.AssignedImmigrationCounter = this;
         traveler.State = TravelerState.AtImmigrationCounter;
         traveler.ImmigrationStartTime = controller.simulationTime;
-        traveler.SetTarget(transform.position + Vector3.right * 0.5f);
+        Vector3 newPos = transform.position + Vector3.right * 0.5f;
+        newPos.y = 0.17f;
+        traveler.SetTarget(newPos);
 
         var config = controller.gameConfig;
         float processingTime;

@@ -20,6 +20,7 @@ public class LaneWaypointHolder : MonoBehaviour
         while (cachedPositions.Count <= index)
         {
             Vector3 newPos = laneStart.position + queueDirection * (cachedPositions.Count * spacing);
+            newPos.y = 0.17f;
             cachedPositions.Add(newPos);
         }
         return cachedPositions[index];

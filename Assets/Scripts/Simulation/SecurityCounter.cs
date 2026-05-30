@@ -64,7 +64,9 @@ public class SecurityCounter : MonoBehaviour
         traveler.AssignedSecurityCounter = this;
         traveler.State = TravelerState.AtSecurityCounter;
         traveler.SecurityStartTime = controller.simulationTime;
-        traveler.SetTarget(transform.position + Vector3.right * 0.5f);
+        Vector3 newPos = transform.position + Vector3.right * 0.5f;
+        newPos.y = 0.17f;
+        traveler.SetTarget(newPos);
 
         // Calculate processing time
         var config = controller.gameConfig;
