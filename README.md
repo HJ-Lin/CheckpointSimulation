@@ -12,6 +12,24 @@ The Checkpoint Simulation is designed to model and analyze the performance of bo
 - Test different scenarios and optimization strategies
 - Export detailed logs for further analysis
 
+**Quick Brief:**
+<img width="381" height="250" alt="Screenshot 2026-05-30 201806" src="https://github.com/user-attachments/assets/77042030-41ba-42b3-9b92-e42c40155233" />
+
+- 3 traveler types (standard-yellow, business-green, family-red)
+   - Green generally faster, red slow
+- Citizens indicated by a red 'passport' marker above the head
+- Security counters are interactable to open/close counter
+   - Green box outline indicates selected counter,
+   - You can pair/unpair queue lane/s with counter WHEN SELECTED
+   - Unpaired counters serve the closest queue
+- Immigration queues are interactable
+   - Configure for ALL/CITIZENS ONLY/FOREIGNERS ONLY
+- Immigration counters are interactable to cycle through close/manned/automatic
+   - Green box outline indicates selected counter,
+   - You can pair/unpair queue lane/s with counter WHEN SELECTED
+   - Unpaired counters serve the closest queue
+   - Automatic Immigration counters serves CITIZENS only
+
 ### Available Actions in the Simulation
 
 **Simulation Control:**
@@ -29,11 +47,7 @@ The Checkpoint Simulation is designed to model and analyze the performance of bo
 - Download traveler logs in CSV format
 
 **Parameter Adjustment:**
-- Traveler type distribution (standard-yellow, business-green, family-red)
-   - Green generally faster, red slow
-<img width="381" height="250" alt="Screenshot 2026-05-30 201806" src="https://github.com/user-attachments/assets/77042030-41ba-42b3-9b92-e42c40155233" />
-
-- Citizenship: The red 'passport' marker above traveler indicates a citizen
+- Traveler type distribution 
 - Time-of-day multipliers for arrival rates
 - Processing times and variability
 - Security lane and immigration counter configuration
