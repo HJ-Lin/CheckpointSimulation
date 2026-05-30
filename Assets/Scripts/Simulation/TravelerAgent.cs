@@ -56,6 +56,10 @@ public class TravelerAgent : MonoBehaviour, IPoolable
     public float TypeMultiplier => typeMultiplier;
     private Color originalMaterialColor;
 
+    [Header("Citizen Indicator")]
+    [SerializeField] private GameObject citizenIndicator; // Assign in Inspector (e.g., a World Space Canvas with a blue passport icon)
+    [SerializeField] private bool useBillboard = true; // Make indicator always face camera
+
     public void Initialize(int travelerId, string travelerType, bool citizen, float arrivalTime)
     {
         id = travelerId;
@@ -80,6 +84,8 @@ public class TravelerAgent : MonoBehaviour, IPoolable
         targetPosition = transform.position;
 
         ApplyTypeColor(type);
+        UpdateCitizenIndicator(citizen);
+        SetCitizenIndicatorRotation();
     }
 
     private void ApplyTypeColor(string travelerType)
@@ -101,6 +107,14 @@ public class TravelerAgent : MonoBehaviour, IPoolable
             }
 
             renderer.material.color = newColor;
+        }
+    }
+
+    private void UpdateCitizenIndicator(bool citizen)
+    {
+        if (citizenIndicator != null)
+        {
+            citizenIndicator.SetActive(citizen);
         }
     }
 
@@ -223,6 +237,7 @@ public class TravelerAgent : MonoBehaviour, IPoolable
         state = TravelerState.Arriving;
 
         RevertMaterialColor();
+        UpdateCitizenIndicator(false);
     }
 
     private void RevertMaterialColor()
@@ -232,6 +247,15 @@ public class TravelerAgent : MonoBehaviour, IPoolable
         {
             renderer.material.color = originalMaterialColor;
             originalMaterialColor = Color.clear;
+        }
+    }
+
+    private void SetCitizenIndicatorRotation()
+    {
+        // Set citizen indicator to be parallel to camera (only once during initialization)
+        if (useBillboard && citizenIndicator != null && Camera.main != null)
+        {
+            citizenIndicator.transform.rotation = Camera.main.transform.rotation;
         }
     }
 

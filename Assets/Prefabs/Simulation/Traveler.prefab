@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 273722a891ccc23488020c661e04f727, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TravelerAgent
+  citizenIndicator: {fileID: 3787759465832192302}
+  useBillboard: 1
 --- !u!33 &4926611770443320716
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -140,12 +142,12 @@ GameObject:
   - component: {fileID: 4549712834600167700}
   - component: {fileID: 4030496403925850239}
   m_Layer: 0
-  m_Name: Image
+  m_Name: CitizenIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8930248602259314861
 RectTransform:
   m_ObjectHideFlags: 0
@@ -186,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.11792451, b: 0.13537925, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -240,7 +242,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 1.44}
-  m_SizeDelta: {x: 0.9, y: 0.33}
+  m_SizeDelta: {x: 0.45, y: 0.33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &701020763283185086
 Canvas:
