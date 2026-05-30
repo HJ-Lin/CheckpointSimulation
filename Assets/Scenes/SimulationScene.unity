@@ -3364,6 +3364,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: enableHUD
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: isImmigrationLane
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4175,7 +4183,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: enableHUD
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
       propertyPath: laneIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: isImmigrationLane
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4855,8 +4871,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: enableHUD
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
       propertyPath: laneIndex
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: isImmigrationLane
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6125,8 +6149,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: enableHUD
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
       propertyPath: laneIndex
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: isImmigrationLane
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

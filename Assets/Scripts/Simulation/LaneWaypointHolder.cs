@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
+using System;
 
 public class LaneWaypointHolder : MonoBehaviour
 {
@@ -15,13 +17,59 @@ public class LaneWaypointHolder : MonoBehaviour
     [Header("Lane Head")]
     public Transform laneHead;   // The physical position of the lane's front (where counters connect to)
 
+    [Header("Lane Type HUD Configuration")]
+    [SerializeField] private bool enableHUD = true;
+    [SerializeField] private bool isImmigrationLane = false; // Set to true for immigration lanes
+
     // Cache – no need to store actual Transforms
     private List<Vector3> cachedPositions = new List<Vector3>();
     public List<Vector3> CachedPositions => cachedPositions;
 
+    // HUD References
+    [SerializeField] private GameObject hudGameObject;
+    [SerializeField] private TMP_Text hudTextMeshPro;
+
+    public static Action<LaneWaypointHolder, string> OnImmigrationLaneChanged;
+
     void Start()
     {
         if (clickCollider == null) clickCollider = GetComponent<Collider>();
+        
+        if (enableHUD && isImmigrationLane)
+        {
+            SetIndicatorRotation();
+            RefreshHUDText();
+        }
+    }
+
+    public void RefreshHUDText()
+    {
+        if (!enableHUD || !isImmigrationLane || hudTextMeshPro == null)
+        {
+            hudGameObject.SetActive(false);
+            return;
+        }
+
+        var controller = SimulationController.Instance;
+        if (controller == null)
+            return;
+
+        string setting = controller.gameConfig.immigrationLaneSettings[laneIndex];
+        string displayText = GetDisplayTextForSetting(setting);
+        
+        hudTextMeshPro.text = displayText;
+        hudGameObject.SetActive(true);
+    }
+
+    private string GetDisplayTextForSetting(string setting)
+    {
+        return setting switch
+        {
+            "all" => "All",
+            "citizens" => "Citizens",
+            "foreigners" => "Foreigners",
+            _ => "Unknown"
+        };
     }
 
     public void OnClicked()
@@ -51,13 +99,20 @@ public class LaneWaypointHolder : MonoBehaviour
         }
         else
         {
-            // No counter selected → cycle lane citizenship setting
-            string[] settings = { "all", "citizens", "foreigners" };
-            string current = controller.gameConfig.immigrationLaneSettings[laneIndex];
-            int nextIdx = (System.Array.IndexOf(settings, current) + 1) % settings.Length;
-            controller.gameConfig.immigrationLaneSettings[laneIndex] = settings[nextIdx];
-            // Update UI dropdown if needed
-            // Play sound
+            // No counter selected → cycle lane citizenship setting (for immigration lanes only)
+            if (isImmigrationLane)
+            {
+                string[] settings = { "all", "citizens", "foreigners" };
+                string current = controller.gameConfig.immigrationLaneSettings[laneIndex];
+                int nextIdx = (System.Array.IndexOf(settings, current) + 1) % settings.Length;
+                controller.gameConfig.immigrationLaneSettings[laneIndex] = settings[nextIdx];
+                RefreshHUDText();
+
+                // Update UI dropdown if needed
+                OnImmigrationLaneChanged?.Invoke(this, settings[nextIdx]);
+
+                // Play sound
+            }
         }
     }
 
@@ -83,6 +138,15 @@ public class LaneWaypointHolder : MonoBehaviour
         {
             Vector3 pos = laneStart.position + queueDirection * (i * spacing);
             Gizmos.DrawWireSphere(pos, 0.2f);
+        }
+    }
+
+    private void SetIndicatorRotation()
+    {
+        // Set citizen indicator to be parallel to camera (only once during initialization)
+        if (hudGameObject != null && Camera.main != null)
+        {
+            hudGameObject.transform.rotation = Camera.main.transform.rotation;
         }
     }
 }

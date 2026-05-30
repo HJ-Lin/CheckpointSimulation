@@ -219,6 +219,13 @@ public class UIManager : MonoBehaviour
 
         // Initialize UI from current config
         UpdateUIFromConfig();
+
+        LaneWaypointHolder.OnImmigrationLaneChanged += OnImmigrationLaneChanged;
+    }
+
+    private void OnDestroy()
+    {
+        LaneWaypointHolder.OnImmigrationLaneChanged -= OnImmigrationLaneChanged;
     }
 
     void Update()
@@ -595,5 +602,14 @@ public class UIManager : MonoBehaviour
         int mins = (totalSecs % 3600) / 60;
         int secs = totalSecs % 60;
         return $"{hours:D2}:{mins:D2}:{secs:D2}";
+    }
+
+    private void OnImmigrationLaneChanged(LaneWaypointHolder lane, string type)
+    {
+        if (lane == null || lane.laneIndex < 0 || lane.laneIndex >= immigrationLaneDropdowns.Length)
+            return;
+
+        int dropdownValue = type == "all" ? 0 : (type == "citizens" ? 1 : 2);
+        immigrationLaneDropdowns[lane.laneIndex].value = dropdownValue;
     }
 }
