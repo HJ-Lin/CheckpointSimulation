@@ -9887,6 +9887,7 @@ MonoBehaviour:
   logEntryPrefab: {fileID: 8276281550625366851, guid: ca9105f532188c34c8d6ccc86601ddae, type: 3}
   closeLogsBtn: {fileID: 891722389}
   downloadLogsBtn: {fileID: 262653679}
+  logEntryPoolSize: 50
 --- !u!1 &715510920
 GameObject:
   m_ObjectHideFlags: 0
@@ -10991,10 +10992,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1900, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -18614,6 +18615,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1374468632}
   - component: {fileID: 1374468633}
+  - component: {fileID: 1374468634}
   m_Layer: 0
   m_Name: Content
   m_TagString: Untagged
@@ -18666,6 +18668,20 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &1374468634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374468631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &1376133761
 GameObject:
   m_ObjectHideFlags: 0
@@ -21118,7 +21134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ScrollRect
   m_Content: {fileID: 1374468632}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1

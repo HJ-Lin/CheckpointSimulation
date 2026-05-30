@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Text;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
@@ -71,9 +72,11 @@ public class UIManager : MonoBehaviour
     public GameObject logEntryPrefab;
     public Button closeLogsBtn;
     public Button downloadLogsBtn;
+    [SerializeField] private int logEntryPoolSize = 50;
 
     private SimulationController controller;
     private int currentReportPage = 1;
+    private List<LogEntryUI> activeLogEntries = new List<LogEntryUI>();
 
     void Awake()
     {
@@ -84,6 +87,9 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         controller = SimulationController.Instance;
+
+        // Initialize log entry object pool
+        ObjectPoolManager.Instance.InitializePool("LogEntries", logEntryPrefab, logEntryPoolSize, logContent);
 
         // Assign button listeners
         playPauseBtn.onClick.AddListener(TogglePlayPause);
@@ -215,22 +221,29 @@ public class UIManager : MonoBehaviour
 
     private void ShowLogs()
     {
-        // Clear existing entries
-        foreach (Transform child in logContent) Destroy(child.gameObject);
+        // Return all previously active log entries to the pool
+        foreach (var entry in activeLogEntries)
+        {
+            if (entry != null)
+            {
+                ObjectPoolManager.Instance.ReturnToPool("LogEntries", entry);
+            }
+        }
+        activeLogEntries.Clear();
 
+        // Create new log entries from pool
         foreach (var log in controller.travelerLogs)
         {
-            GameObject entry = Instantiate(logEntryPrefab, logContent);
-            var texts = entry.GetComponentsInChildren<TMP_Text>();
-            texts[0].text = log.id.ToString();
-            texts[1].text = log.type;
-            texts[2].text = log.isCitizen ? "Yes" : "No";
-            texts[3].text = FormatTime(log.arrivalTime);
-            texts[4].text = FormatTime(log.securityStartTime);
-            texts[5].text = FormatTime(log.securityEndTime);
-            texts[6].text = FormatTime(log.immigrationStartTime);
-            texts[7].text = FormatTime(log.immigrationEndTime);
-            texts[8].text = FormatTime(log.exitTime);
+            IPoolable poolable = ObjectPoolManager.Instance.GetFromPool("LogEntries");
+            if (poolable != null)
+            {
+                LogEntryUI logEntry = poolable as LogEntryUI;
+                if (logEntry != null)
+                {
+                    logEntry.DisplayLog(log);
+                    activeLogEntries.Add(logEntry);
+                }
+            }
         }
 
         logsPanel.SetActive(true);

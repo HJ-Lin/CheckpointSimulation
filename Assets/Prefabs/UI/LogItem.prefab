@@ -1105,6 +1105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1174079254004251798}
+  - component: {fileID: 7527720835388000936}
   - component: {fileID: 4753119558184842376}
   m_Layer: 0
   m_Name: LogItem
@@ -1141,6 +1142,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7527720835388000936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8276281550625366851}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 684ad539a99620e49a02c6720cd2ce6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LogEntryUI
+  textFields:
+  - {fileID: 1681011619678707409}
+  - {fileID: 2302736390151763407}
+  - {fileID: 2445125235075609478}
+  - {fileID: 1400610348932315100}
+  - {fileID: 9026388779451763220}
+  - {fileID: 2569649300707936536}
+  - {fileID: 405868021409884759}
+  - {fileID: 279574508826015013}
+  - {fileID: 1004776837888361803}
 --- !u!114 &4753119558184842376
 MonoBehaviour:
   m_ObjectHideFlags: 0
