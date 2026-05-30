@@ -34,6 +34,7 @@ public class SecurityCounter : MonoBehaviour
     private SimulationController controller;
     private float processingDuration;
     private bool isDraining = false;
+    private bool isInitialized = false;
 
     void Start()
     {
@@ -51,6 +52,7 @@ public class SecurityCounter : MonoBehaviour
                 lineRenderer = gameObject.AddComponent<LineRenderer>();
         }
         ConfigureLineRenderer();
+        isInitialized = true;
 
         controller.OnCounterSelected += OnSetSelected;
     }
@@ -227,7 +229,11 @@ public class SecurityCounter : MonoBehaviour
 
         // Update visual indicators to reflect new state
         UpdateVisualState();
-        RefreshConnectionLines();
+        // Only refresh connection lines if initialization is complete
+        if (isInitialized)
+        {
+            RefreshConnectionLines();
+        }
     }
 
     public void OnClicked()
@@ -282,7 +288,11 @@ public class SecurityCounter : MonoBehaviour
     /// </summary>
     public void RefreshConnectionLines()
     {
-        if (lineRenderer == null) return;
+        // Guard against calls before LineRenderer is initialized
+        if (!isInitialized || lineRenderer == null)
+        {
+            return;
+        }
 
         var controller = SimulationController.Instance;
         int connectedCount = 0;

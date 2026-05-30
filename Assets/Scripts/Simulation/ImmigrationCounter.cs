@@ -36,6 +36,7 @@ public class ImmigrationCounter : MonoBehaviour
     private SimulationController controller;
     private float processingDuration;
     private bool isDraining = false;
+    private bool isInitialized = false;
 
     void Start()
     {
@@ -53,6 +54,7 @@ public class ImmigrationCounter : MonoBehaviour
                 lineRenderer = gameObject.AddComponent<LineRenderer>();
         }
         ConfigureLineRenderer();
+        isInitialized = true;
 
         controller.OnCounterSelected += OnSetSelected;
     }
@@ -250,7 +252,11 @@ public class ImmigrationCounter : MonoBehaviour
 
         // Update visual indicators to reflect new state
         UpdateVisualState();
-        RefreshConnectionLines();
+        // Only refresh connection lines if initialization is complete
+        if (isInitialized)
+        {
+            RefreshConnectionLines();
+        }
     }
 
     public void OnClicked()
@@ -323,7 +329,11 @@ public class ImmigrationCounter : MonoBehaviour
     /// </summary>
     public void RefreshConnectionLines()
     {
-        if (lineRenderer == null) return;
+        // Guard against calls before LineRenderer is initialized
+        if (!isInitialized || lineRenderer == null)
+        {
+            return;
+        }
 
         var controller = SimulationController.Instance;
         int connectedCount = 0;
