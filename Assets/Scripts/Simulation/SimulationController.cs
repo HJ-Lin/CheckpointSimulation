@@ -57,7 +57,6 @@ public class SimulationController : MonoBehaviour
         // Initialize the traveler object pool
         ObjectPoolManager.Instance.InitializePool("Travelers", travelerPrefab, travelerPoolInitialSize, travelersParent);
 
-        InitializeCounters();
         nextSpawnTime = CalculateNextArrivalTime(0f);
         ApplyScenario(scenarios[0]);
 
@@ -120,10 +119,11 @@ public class SimulationController : MonoBehaviour
     {
         for (int i = 0; i < securityCounters.Length; i++)
         {
-            securityCounters[i].id = i;
-            securityCounters[i].active = i < gameConfig.securityLanes;
-            securityCounters[i].hookedLanes = new List<int>();
-            if (i < 4) securityCounters[i].hookedLanes.Add(i);
+            List<int> lanes = new List<int>();
+            if (i < 4) lanes.Add(i);
+            
+            bool isActive = i < gameConfig.securityLanes;
+            securityCounters[i].Initialize(i, isActive, lanes);
         }
 
         for (int i = 0; i < immigrationCounters.Length; i++)
