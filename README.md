@@ -30,6 +30,10 @@ The Checkpoint Simulation is designed to model and analyze the performance of bo
 
 **Parameter Adjustment:**
 - Traveler type distribution (standard-yellow, business-green, family-red)
+   - Green generally faster, red slow
+<img width="381" height="250" alt="Screenshot 2026-05-30 201806" src="https://github.com/user-attachments/assets/77042030-41ba-42b3-9b92-e42c40155233" />
+
+- Citizenship: The red 'passport' marker above traveler indicates a citizen
 - Time-of-day multipliers for arrival rates
 - Processing times and variability
 - Security lane and immigration counter configuration
@@ -54,7 +58,12 @@ This project requires Unity 6 (6000.4.0f1 or compatible versions) with TextMesh 
 - Minimum 4GB RAM
 - TextMesh Pro package (included with Unity)
 
-### Installation Steps
+### Just Run Build (No installation)
+
+1. **Open the Executable file**
+   - In the Build folder, run "Checkpoint Simulation.exe"
+
+### Or, Installation Steps
 
 1. **Clone or Extract the Repository**
    ```bash
