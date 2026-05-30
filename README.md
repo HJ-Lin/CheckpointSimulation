@@ -123,7 +123,7 @@ Checkpoint Simulation/
 1. **Open the Executable file**
    - In the build folder, run "Checkpoint Simulation.exe"
 
-### Starting the Simulation (Unity Editor)
+### Or, Starting the Simulation (Unity Editor)
 
 1. **Open the Main Scene**
    - In Unity, navigate to the Scenes folder
