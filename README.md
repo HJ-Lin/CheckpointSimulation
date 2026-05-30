@@ -260,5 +260,5 @@ The top bar displays live metrics:
 
 ## Prototyping
 
-- This is the link to the initial prototype created
+- If you are interested, this is the link to the initial prototype created
 - URL: https://www.astrocade.com/games/global-gateway-tycoon/01KSCFC652X03RWE8WPNQ8HH1S?sharedByCreator=StudioJ&surface=web
