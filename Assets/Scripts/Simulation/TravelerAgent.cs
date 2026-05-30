@@ -11,7 +11,7 @@ public enum TravelerState
     Leaving
 }
 
-public class TravelerAgent : MonoBehaviour
+public class TravelerAgent : MonoBehaviour, IPoolable
 {
     private int id;
     public int Id => id;
@@ -158,5 +158,51 @@ public class TravelerAgent : MonoBehaviour
         {
             targetPosition = lane.GetQueuePosition(pos);
         }
+    }
+
+    /// <summary>
+    /// Called when the traveler is spawned from the object pool.
+    /// </summary>
+    public void OnSpawnFromPool()
+    {
+        // Object is now active, will be initialized via Initialize() method
+    }
+
+    /// <summary>
+    /// Called when the traveler is returned to the object pool.
+    /// Resets all state for reuse.
+    /// </summary>
+    public void OnReturnToPool()
+    {
+        // Reset all traveler data
+        id = 0;
+        type = "standard";
+        isCitizen = false;
+        speed = 0;
+        entryTime = 0;
+        securityQueueJoinTime = 0;
+        immigrationQueueJoinTime = 0;
+        securityStartTime = 0;
+        securityEndTime = 0;
+        immigrationStartTime = 0;
+        immigrationEndTime = 0;
+        exitTime = 0;
+        laneIndex = -1;
+        queuePosition = 0;
+        assignedSecurityCounter = null;
+        assignedImmigrationCounter = null;
+        enhanced = false;
+        automatedError = false;
+        targetPosition = Vector3.zero;
+        typeMultiplier = 1.0f;
+        state = TravelerState.Arriving;
+    }
+
+    /// <summary>
+    /// Get the GameObject of this poolable object.
+    /// </summary>
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 }

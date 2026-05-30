@@ -26342,6 +26342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1998447972}
   - component: {fileID: 1998447973}
+  - component: {fileID: 1998447974}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -26417,6 +26418,21 @@ MonoBehaviour:
   nextSpawnTime: 0
   activeTravelers: []
   travelerLogs: []
+  travelerPoolInitialSize: 50
+--- !u!114 &1998447974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998447971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23361cc61fde9fd49a1c1682b4bc1bb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectPoolManager
+  initialPoolSize: 10
+  logPoolActivity: 0
 --- !u!1 &2009271283
 GameObject:
   m_ObjectHideFlags: 0

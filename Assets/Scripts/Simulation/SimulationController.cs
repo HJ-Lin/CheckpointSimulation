@@ -32,6 +32,9 @@ public class SimulationController : MonoBehaviour
     public List<TravelerLogEntry> travelerLogs = new List<TravelerLogEntry>();
     public SimulationMetrics metrics = new SimulationMetrics();
 
+    [Header("Object Pooling")]
+    [SerializeField] private int travelerPoolInitialSize = 50;
+
     // Internal queues for each lane
     private List<TravelerAgent>[] securityQueues = new List<TravelerAgent>[4];
     private List<TravelerAgent>[] immigrationQueues = new List<TravelerAgent>[4];
@@ -51,6 +54,9 @@ public class SimulationController : MonoBehaviour
 
     void Start()
     {
+        // Initialize the traveler object pool
+        ObjectPoolManager.Instance.InitializePool("Travelers", travelerPrefab, travelerPoolInitialSize, travelersParent);
+
         InitializeCounters();
         nextSpawnTime = CalculateNextArrivalTime(0f);
     }
@@ -134,22 +140,28 @@ public class SimulationController : MonoBehaviour
             int bestLane = GetBestSecurityLane();
             if (bestLane != -1)
             {
-                GameObject travelerObj = Instantiate(travelerPrefab, spawnPoint.position, Quaternion.identity, travelersParent);
-                TravelerAgent traveler = travelerObj.GetComponent<TravelerAgent>();
+                // Get traveler from object pool instead of instantiating
+                IPoolable poolable = ObjectPoolManager.Instance.GetFromPool("Travelers");
+                if (poolable != null)
+                {
+                    TravelerAgent traveler = poolable as TravelerAgent;
+                    GameObject travelerObj = traveler.GetGameObject();
+                    travelerObj.transform.position = spawnPoint.position;
 
-                // Determine traveler type
-                string travelerType = GetRandomTravelerType();
-                bool isCitizen = Random.value < (gameConfig.citizenPercentage / 100f);
+                    // Determine traveler type
+                    string travelerType = GetRandomTravelerType();
+                    bool isCitizen = Random.value < (gameConfig.citizenPercentage / 100f);
 
-                traveler.Initialize(nextTravelerId++, travelerType, isCitizen, nextSpawnTime);
-                traveler.LaneIndex = bestLane;
-                activeTravelers.Add(traveler);
-                arrivalTimes.Add(nextSpawnTime);
+                    traveler.Initialize(nextTravelerId++, travelerType, isCitizen, nextSpawnTime);
+                    traveler.LaneIndex = bestLane;
+                    activeTravelers.Add(traveler);
+                    arrivalTimes.Add(nextSpawnTime);
 
-                // Move to lane entry point
-                Vector3 entryPos = securityLanes[bestLane].GetQueuePosition(0);
-                entryPos.y = spawnPoint.position.y;
-                traveler.SetTarget(entryPos);
+                    // Move to lane entry point
+                    Vector3 entryPos = securityLanes[bestLane].GetQueuePosition(0);
+                    entryPos.y = spawnPoint.position.y;
+                    traveler.SetTarget(entryPos);
+                }
             }
 
             nextSpawnTime = CalculateNextArrivalTime(nextSpawnTime);
@@ -417,7 +429,13 @@ public class SimulationController : MonoBehaviour
     public void OnTravelerExited(TravelerAgent traveler)
     {
         activeTravelers.Remove(traveler);
-        Destroy(traveler.gameObject);
+        
+        // Return traveler to the object pool instead of destroying
+        IPoolable poolable = traveler as IPoolable;
+        if (poolable != null)
+        {
+            ObjectPoolManager.Instance.ReturnToPool("Travelers", poolable);
+        }
     }
 
     private void UpdateSecurityQueuePositions(int laneIdx)
@@ -480,8 +498,15 @@ public class SimulationController : MonoBehaviour
 
     public void ResetSimulation()
     {
-        // Clear all travelers
-        foreach (var t in activeTravelers) Destroy(t.gameObject);
+        // Return all travelers to the pool instead of destroying
+        foreach (var traveler in activeTravelers)
+        {
+            IPoolable poolable = traveler as IPoolable;
+            if (poolable != null)
+            {
+                ObjectPoolManager.Instance.ReturnToPool("Travelers", poolable);
+            }
+        }
         activeTravelers.Clear();
 
         // Clear queues
