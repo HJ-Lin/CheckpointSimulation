@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     public Button settingsBtn;
     public Button analysisBtn;
     public Button logsBtn;
+    public Button exitBtn;
     public TMP_Text speedDisplay;
     public Image playPauseIcon;
     public Sprite playIcon;
@@ -36,6 +37,7 @@ public class UIManager : MonoBehaviour
     public GameObject settingsPanel;
     public GameObject reportPanel;
     public GameObject logsPanel;
+    public GameObject exitPanel;
 
     // ---------- Settings Panel Elements ----------
     [Header("Scenario Buttons")]
@@ -134,6 +136,10 @@ public class UIManager : MonoBehaviour
     public Button downloadLogsBtn;
     [SerializeField] private int logEntryPoolSize = 50;
 
+    // ---------- Exit Panel ----------
+    [Header("Exit Panel")]
+    public Button confirmExitBtn;
+
     private SimulationController controller;
     private int currentReportPage = 1;
     private List<LogEntryUI> activeLogEntries = new List<LogEntryUI>();
@@ -160,6 +166,7 @@ public class UIManager : MonoBehaviour
         settingsBtn.onClick.AddListener(() => settingsPanel.SetActive(true));
         analysisBtn.onClick.AddListener(ShowDayReport);
         logsBtn.onClick.AddListener(ShowLogs);
+        exitBtn.onClick.AddListener(ShowExitPanel);
 
         // Report panel listeners
         closeReportBtn.onClick.AddListener(() => reportPanel.SetActive(false));
@@ -169,6 +176,9 @@ public class UIManager : MonoBehaviour
         // Logs panel listeners
         closeLogsBtn.onClick.AddListener(() => logsPanel.SetActive(false));
         downloadLogsBtn.onClick.AddListener(DownloadLogsCSV);
+
+        // Exit panel listeners
+        confirmExitBtn.onClick.AddListener(ExitApplication);
 
         // Scenario buttons
         baselineScenarioBtn.onValueChanged.AddListener((value) => ApplyScenario("baseline", value));
@@ -611,5 +621,19 @@ public class UIManager : MonoBehaviour
 
         int dropdownValue = type == "all" ? 0 : (type == "citizens" ? 1 : 2);
         immigrationLaneDropdowns[lane.laneIndex].value = dropdownValue;
+    }
+
+    private void ShowExitPanel()
+    {
+        exitPanel.SetActive(true);
+    }
+
+    private void ExitApplication()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+      Application.Quit();
+#endif
     }
 }
