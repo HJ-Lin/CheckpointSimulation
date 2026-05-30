@@ -113,7 +113,7 @@ Checkpoint Simulation/
 │   │   │   ├── ImmigrationCounter.cs
 │   │   │   ├── LaneWaypointHolder.cs
 │   │   │   └── ImmigrationCounter.cs
-│   │ ├── Data/        # Configuration and data structures
+│   │   ├── Data/        # Configuration and data structures
 │   │   │   ├── GameConfig.cs
 │   │   │   ├── SimulationData.cs
 │   │   │   ├── ScenarioPreset.cs
@@ -122,7 +122,7 @@ Checkpoint Simulation/
 │   │   │   ├── UIManager.cs
 │   │   │   ├── LogEntryUI.cs
 │   │   │   └── UtilizationEntryUI.cs
-│ │   └── Utils/      # Utility classes
+│   │   └── Utils/      # Utility classes
 │   │       ├── InteractionManager.cs
 │   │       ├── ObjectPoolManager.cs
 │   │       ├── CameraController.cs
