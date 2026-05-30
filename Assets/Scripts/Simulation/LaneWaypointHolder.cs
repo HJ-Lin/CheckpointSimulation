@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class LaneWaypointHolder : MonoBehaviour
@@ -9,9 +9,57 @@ public class LaneWaypointHolder : MonoBehaviour
     public Vector3 queueDirection = Vector3.back; // Direction towards the counter (e.g., -Z)
     public float spacing = 1.2f;       // Distance between queue positions
 
-    // Cache � no need to store actual Transforms
+    [Header("Interaction")]
+    [SerializeField] private Collider clickCollider;
+
+    [Header("Lane Head")]
+    public Transform laneHead;   // The physical position of the lane's front (where counters connect to)
+
+    // Cache – no need to store actual Transforms
     private List<Vector3> cachedPositions = new List<Vector3>();
     public List<Vector3> CachedPositions => cachedPositions;
+
+    void Start()
+    {
+        if (clickCollider == null) clickCollider = GetComponent<Collider>();
+    }
+
+    public void OnClicked()
+    {
+        Debug.Log("Lane Left click detected");
+        var controller = SimulationController.Instance;
+        var selected = controller.SelectedCounter;
+
+        // If a SecurityCounter is selected, toggle hook for this lane
+        if (selected is SecurityCounter secCounter)
+        {
+            if (secCounter.hookedLanes.Contains(laneIndex))
+                secCounter.hookedLanes.Remove(laneIndex);
+            else
+                secCounter.hookedLanes.Add(laneIndex);
+            // Play sound
+            secCounter.RefreshConnectionLines();
+        }
+        // If an ImmigrationCounter is selected, toggle hook for this lane
+        else if (selected is ImmigrationCounter immCounter)
+        {
+            if (immCounter.hookedLanes.Contains(laneIndex))
+                immCounter.hookedLanes.Remove(laneIndex);
+            else
+                immCounter.hookedLanes.Add(laneIndex);
+            // Play sound
+        }
+        else
+        {
+            // No counter selected → cycle lane citizenship setting
+            string[] settings = { "all", "citizens", "foreigners" };
+            string current = controller.gameConfig.immigrationLaneSettings[laneIndex];
+            int nextIdx = (System.Array.IndexOf(settings, current) + 1) % settings.Length;
+            controller.gameConfig.immigrationLaneSettings[laneIndex] = settings[nextIdx];
+            // Update UI dropdown if needed
+            // Play sound
+        }
+    }
 
     /// <summary> Returns the world position for a given queue index (0 = front). </summary>
     public Vector3 GetQueuePosition(int index)

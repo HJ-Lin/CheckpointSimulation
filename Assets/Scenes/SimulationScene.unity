@@ -4114,6 +4114,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: laneIndex
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4560,6 +4564,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: laneIndex
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4785,6 +4793,10 @@ PrefabInstance:
     - target: {fileID: 4453489911946506056, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: laneIndex
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6044,6 +6056,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: laneIndex
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6340,6 +6356,10 @@ PrefabInstance:
     - target: {fileID: 4453489911946506056, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: laneIndex
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6890,6 +6910,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4610006441772003002, guid: 333edbfb99017ef4d9ac090a655c6ffd, type: 3}
+      propertyPath: laneIndex
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7016,6 +7040,7 @@ GameObject:
   - component: {fileID: 1998447972}
   - component: {fileID: 1998447973}
   - component: {fileID: 1998447974}
+  - component: {fileID: 1998447975}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -7110,6 +7135,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPoolManager
   initialPoolSize: 10
   logPoolActivity: 0
+--- !u!114 &1998447975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998447971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39f1c7f814f68e049b56033c31ee6a7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractionManager
+  maxDistance: 100
+  interactableLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &2009428144 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5907812365545677253, guid: 042d244d6e8579141886222bb4a88610, type: 3}

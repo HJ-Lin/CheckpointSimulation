@@ -1,6 +1,7 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class SimulationController : MonoBehaviour
 {
@@ -34,6 +35,19 @@ public class SimulationController : MonoBehaviour
 
     [Header("Object Pooling")]
     [SerializeField] private int travelerPoolInitialSize = 50;
+
+    public Action<object> OnCounterSelected;
+    private object selectedCounter; // Can be SecurityCounter or ImmigrationCounter
+    public object SelectedCounter
+    {
+        get => selectedCounter;
+        set
+        {
+            selectedCounter = value;
+            // Optionally highlight the selected counter (you'd need a visual feedback method)
+            OnCounterSelected?.Invoke(selectedCounter);
+        }
+    }
 
     // Internal queues for each lane
     private List<TravelerAgent>[] securityQueues = new List<TravelerAgent>[4];
@@ -144,7 +158,7 @@ public class SimulationController : MonoBehaviour
         if (gameConfig.arrivalDistribution == "poisson")
         {
             float lambda = ratePerMin / 60f;
-            float interArrival = -Mathf.Log(1f - Random.value) / lambda;
+            float interArrival = -Mathf.Log(1f - UnityEngine.Random.value) / lambda;
             return currentTime + interArrival;
         }
         else
@@ -180,7 +194,7 @@ public class SimulationController : MonoBehaviour
 
                     // Determine traveler type
                     string travelerType = GetRandomTravelerType();
-                    bool isCitizen = Random.value < (gameConfig.citizenPercentage / 100f);
+                    bool isCitizen = UnityEngine.Random.value < (gameConfig.citizenPercentage / 100f);
 
                     traveler.Initialize(nextTravelerId++, travelerType, isCitizen, nextSpawnTime);
                     traveler.LaneIndex = bestLane;
@@ -204,7 +218,7 @@ public class SimulationController : MonoBehaviour
     private string GetRandomTravelerType()
     {
         float totalWeight = gameConfig.travelerTypes.Sum(t => t.Value.weight);
-        float r = Random.value * totalWeight;
+        float r = UnityEngine.Random.value * totalWeight;
         float accum = 0;
         foreach (var kvp in gameConfig.travelerTypes)
         {
@@ -526,6 +540,22 @@ public class SimulationController : MonoBehaviour
     public LaneWaypointHolder GetSecurityLane(int idx) => securityLanes[idx];
     public LaneWaypointHolder GetImmigrationLane(int idx) => immigrationLanes[idx];
 
+    public void UpdateSecurityLanesCount()
+    {
+        int activeCount = 0;
+        foreach (var c in securityCounters) if (c.active) activeCount++;
+        gameConfig.securityLanes = activeCount;
+        // Update UI sliders if needed
+    }
+
+    public void UpdateImmigrationCountersCount()
+    {
+        int activeCount = 0;
+        foreach (var c in immigrationCounters) if (c.active) activeCount++;
+        gameConfig.immigrationCounters = activeCount;
+        // Update UI sliders if needed
+    }
+
     public void ResetSimulation()
     {
         // Return all travelers to the pool instead of destroying
@@ -557,5 +587,7 @@ public class SimulationController : MonoBehaviour
         metrics.lastThroughputUpdate = 0f;
 
         InitializeCounters();
+
+        foreach (var c in securityCounters) c.RefreshConnectionLines();
     }
 }

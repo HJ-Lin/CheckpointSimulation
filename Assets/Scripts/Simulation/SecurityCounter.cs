@@ -18,11 +18,18 @@ public class SecurityCounter : MonoBehaviour
     [SerializeField] private GameObject statusPanel;           // Panel that rotates to face camera
     [SerializeField] private TMP_Text statusText;              // Shows "ACTIVE", "INACTIVE", "OCCUPIED"
     [SerializeField] private GameObject officerImage;
+    [SerializeField] private GameObject selectedImage;
     [SerializeField] private MeshRenderer indicatorLight;      // Small sphere or cube for color state
     [SerializeField] private Color activeColor = Color.green;
     [SerializeField] private Color inactiveColor = Color.gray;
     [SerializeField] private Color occupiedColor = Color.red;
     [SerializeField] private Color drainingColor = new Color(1f, 0.5f, 0f); // Orange
+
+    // ----- ADDED FOR INTERACTION -----
+    [Header("Interaction")]
+    [SerializeField] private Collider clickCollider;  // assign in Inspector (e.g., a BoxCollider)
+    [Header("Connection Visuals")]
+    [SerializeField] private LineRenderer lineRenderer;
 
     private SimulationController controller;
     private float processingDuration;
@@ -32,6 +39,25 @@ public class SecurityCounter : MonoBehaviour
     {
         controller = SimulationController.Instance;
         SetIndicatorRotation();
+        // Ensure collider exists
+        if (clickCollider == null) clickCollider = GetComponent<Collider>();
+        if (clickCollider == null) Debug.LogWarning($"SecurityCounter {id} has no collider for clicking.");
+
+        // Ensure a LineRenderer exists
+        if (lineRenderer == null)
+        {
+            lineRenderer = GetComponent<LineRenderer>();
+            if (lineRenderer == null)
+                lineRenderer = gameObject.AddComponent<LineRenderer>();
+        }
+        ConfigureLineRenderer();
+
+        controller.OnCounterSelected += OnSetSelected;
+    }
+
+    private void OnDestroy()
+    {
+        controller.OnCounterSelected -= OnSetSelected;
     }
 
     void Update()
@@ -169,6 +195,7 @@ public class SecurityCounter : MonoBehaviour
         busyTime = 0f;
         processingEndTime = 0f;
         UpdateVisualState();
+        RefreshConnectionLines();
     }
 
     private void SetIndicatorRotation()
@@ -200,5 +227,86 @@ public class SecurityCounter : MonoBehaviour
 
         // Update visual indicators to reflect new state
         UpdateVisualState();
+        RefreshConnectionLines();
+    }
+
+    public void OnClicked()
+    {
+        Debug.Log("Security Left click detected");
+        // If this counter is already selected, toggle its active state
+        if (controller.SelectedCounter == this)
+        {
+            ToggleActive();
+        }
+        else
+        {
+            // Otherwise, select this counter
+            controller.SelectedCounter = this;
+        }
+        // Play click sound (optional)
+        // AudioManager.Play("ui_click");
+        RefreshConnectionLines();
+    }
+
+    // ----- NEW METHOD: Toggle active state -----
+    public void ToggleActive()
+    {
+        active = !active;
+        // Update the config value to match the number of active counters
+        // (Handled in SimulationController via event or direct update)
+        controller.UpdateSecurityLanesCount();
+        UpdateVisualState();
+    }
+
+    public void OnSetSelected(object selectedCounter)
+    {
+        if (selectedImage != null)
+        {
+            selectedImage.SetActive(selectedCounter == this);
+        }
+    }
+
+    private void ConfigureLineRenderer()
+    {
+        if (lineRenderer == null) return;
+        lineRenderer.startWidth = 0.1f;
+        lineRenderer.endWidth = 0.1f;
+        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        lineRenderer.startColor = new Color(0.33f, 0.53f, 0.96f, 0.7f); // similar to HTML #2196F3 with alpha
+        lineRenderer.endColor = new Color(0.33f, 0.53f, 0.96f, 0.7f);
+        lineRenderer.positionCount = 0;
+    }
+
+    /// <summary>
+    /// Redraws lines from this counter to all lane heads it is connected to.
+    /// Called whenever hookedLanes or active state changes.
+    /// </summary>
+    public void RefreshConnectionLines()
+    {
+        if (lineRenderer == null) return;
+
+        var controller = SimulationController.Instance;
+        int connectedCount = 0;
+        foreach (int laneIdx in hookedLanes)
+        {
+            var lane = controller.GetSecurityLane(laneIdx);
+            if (lane != null && lane.laneHead != null)
+                connectedCount++;
+        }
+        lineRenderer.positionCount = connectedCount * 2;
+        int pointIndex = 0;
+        foreach (int laneIdx in hookedLanes)
+        {
+            var lane = controller.GetSecurityLane(laneIdx);
+            if (lane != null && lane.laneHead != null)
+            {
+                Vector3 start = transform.position;
+                Vector3 end = lane.laneHead.position;
+                lineRenderer.SetPosition(pointIndex++, start);
+                lineRenderer.SetPosition(pointIndex++, end);
+            }
+        }
+        bool shouldShow = (active || IsDraining()) && connectedCount > 0;
+        lineRenderer.enabled = shouldShow;
     }
 }
