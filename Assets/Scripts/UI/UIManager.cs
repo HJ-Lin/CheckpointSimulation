@@ -563,6 +563,7 @@ public class UIManager : MonoBehaviour
                 {
                     logEntry.DisplayLog(log);
                     activeLogEntries.Add(logEntry);
+                    logEntry.transform.SetAsLastSibling();
                 }
             }
         }
