@@ -232,7 +232,6 @@ public class SecurityCounter : MonoBehaviour
 
     public void OnClicked()
     {
-        Debug.Log("Security Left click detected");
         // If this counter is already selected, toggle its active state
         if (controller.SelectedCounter == this)
         {

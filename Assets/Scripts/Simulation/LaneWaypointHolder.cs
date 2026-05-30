@@ -26,7 +26,6 @@ public class LaneWaypointHolder : MonoBehaviour
 
     public void OnClicked()
     {
-        Debug.Log("Lane Left click detected");
         var controller = SimulationController.Instance;
         var selected = controller.SelectedCounter;
 
@@ -48,6 +47,7 @@ public class LaneWaypointHolder : MonoBehaviour
             else
                 immCounter.hookedLanes.Add(laneIndex);
             // Play sound
+            immCounter.RefreshConnectionLines();
         }
         else
         {

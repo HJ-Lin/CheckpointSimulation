@@ -142,10 +142,11 @@ public class SimulationController : MonoBehaviour
 
         for (int i = 0; i < immigrationCounters.Length; i++)
         {
-            immigrationCounters[i].id = i;
-            immigrationCounters[i].active = i < gameConfig.immigrationCounters;
-            immigrationCounters[i].hookedLanes = new List<int>();
-            if (i < 4) immigrationCounters[i].hookedLanes.Add(i);
+            List<int> lanes = new List<int>();
+            if (i < 4) lanes.Add(i);
+
+            bool isActive = i < gameConfig.immigrationCounters;
+            immigrationCounters[i].Initialize(i, isActive, lanes);
         }
     }
 
@@ -589,5 +590,6 @@ public class SimulationController : MonoBehaviour
         InitializeCounters();
 
         foreach (var c in securityCounters) c.RefreshConnectionLines();
+        foreach (var c in immigrationCounters) c.RefreshConnectionLines();
     }
 }
