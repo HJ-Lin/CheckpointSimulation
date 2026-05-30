@@ -14,7 +14,7 @@ The Checkpoint Simulation is designed to model and analyze the performance of bo
 
 **Deliverables:**
 - Task 1, 2, 4: https://github.com/HJ-Lin/CheckpointSimulation/tree/master/Documents
-- Task 2: https://github.com/HJ-Lin/CheckpointSimulation/tree/master/Documents
+- Task 3: https://github.com/HJ-Lin/CheckpointSimulation/tree/master/Build
 
 **Quick Brief:**
 
