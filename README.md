@@ -63,7 +63,7 @@ This project requires Unity 6 (6000.4.0f1 or compatible versions) with TextMesh 
 1. **Open the Executable file**
    - In the Build folder, run "Checkpoint Simulation.exe"
 
-### Or, Installation Steps
+### Or, Installation Steps (Optional)
 
 1. **Clone or Extract the Repository**
    ```bash
@@ -123,7 +123,7 @@ Checkpoint Simulation/
 1. **Open the Executable file**
    - In the build folder, run "Checkpoint Simulation.exe"
 
-### Or, Starting the Simulation (Unity Editor)
+### Or, Starting the Simulation (Unity Editor, Optional)
 
 1. **Open the Main Scene**
    - In Unity, navigate to the Scenes folder
