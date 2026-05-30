@@ -13,6 +13,7 @@ The Checkpoint Simulation is designed to model and analyze the performance of bo
 - Export detailed logs for further analysis
 
 **Quick Brief:**
+
 <img width="381" height="250" alt="Screenshot 2026-05-30 201806" src="https://github.com/user-attachments/assets/77042030-41ba-42b3-9b92-e42c40155233" />
 
 - 3 traveler types (standard-yellow, business-green, family-red)
