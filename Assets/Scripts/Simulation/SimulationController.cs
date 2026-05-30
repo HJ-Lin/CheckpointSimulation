@@ -59,6 +59,36 @@ public class SimulationController : MonoBehaviour
 
         InitializeCounters();
         nextSpawnTime = CalculateNextArrivalTime(0f);
+        ApplyScenario(scenarios[0]);
+
+        UIManager.Instance.Init();
+    }
+
+    public void ApplyScenario(ScenarioPreset scenario)
+    {
+        gameConfig.displayName = scenario.displayName;
+        gameConfig.arrivalRate = scenario.arrivalRate;
+        gameConfig.securityLanes = scenario.securityLanes;
+        gameConfig.securityProcessingTime = scenario.securityProcessingTime;
+        gameConfig.securityMinTime = scenario.securityMinTime;
+        gameConfig.securityMaxTime = scenario.securityMaxTime;
+        gameConfig.securityEnhancedProb = scenario.securityEnhancedProb;
+        gameConfig.immigrationCounters = scenario.immigrationCounters;
+        gameConfig.immigrationProcessingTime = scenario.immigrationProcessingTime;
+        gameConfig.immigrationMinTime = scenario.immigrationMinTime;
+        gameConfig.immigrationMaxTime = scenario.immigrationMaxTime;
+        gameConfig.automatedProcessingTime = scenario.automatedProcessingTime;
+        gameConfig.automatedMinTime = scenario.automatedMinTime;
+        gameConfig.automatedMaxTime = scenario.automatedMaxTime;
+        gameConfig.automatedErrorProb = scenario.automatedErrorProb;
+        gameConfig.enhancedScreeningProb = scenario.enhancedScreeningProb;
+        gameConfig.citizenPercentage = scenario.citizenPercentage;
+        gameConfig.baseWalkingSpeed = scenario.baseWalkingSpeed;
+        gameConfig.timeMultipliers = scenario.timeMultipliers;
+        gameConfig.immigrationLaneSettings = scenario.immigrationLaneSettings;
+        gameConfig.InitializeDefaults();
+
+        ResetSimulation();
     }
 
     void Update()
@@ -123,7 +153,7 @@ public class SimulationController : MonoBehaviour
         }
     }
 
-    private float GetTimeMultiplier(float timeSec)
+    public float GetTimeMultiplier(float timeSec)
     {
         int hour = (int)(timeSec / 3600f) % 24;
         int index = Mathf.FloorToInt(hour / 3f);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "GameConfig", menuName = "Simulation/Game Config")]
 public class GameConfig : ScriptableObject
 {
+    public string displayName;
     public float arrivalRate = 4f;
     public string arrivalDistribution = "poisson"; // "poisson" or "fixed"
     public int securityLanes = 3;
